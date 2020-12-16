@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import './assets/css/estruturadapagina.css';
+import './assets/css/tabela.css';
+import Filme from './pages/Filme'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Filme />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,0 +1,7 @@
+.listagem table, .listagem th, .listagem td {
+    border: 1px solid blue;
+}
+
+.tabela-filmes {
+    color: black;
+}
