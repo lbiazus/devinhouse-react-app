@@ -1,5 +1,6 @@
 export const filmes = [
     {
+        id: 1,
         titulo: 'O Senhor dos Anéis',
         subtitulo: 'A Sociedade do Anel',
         diretor: 'Peter Jackson',
@@ -22,6 +23,7 @@ export const filmes = [
         ]
     },
     {
+        id: 2,
         titulo: 'Efeito Borboleta',
         subtitulo: '',
         diretor: 'Eric Bress',
@@ -44,6 +46,7 @@ export const filmes = [
         ]
     },
     {
+        id: 3,
         titulo: 'O Homem de Ferro',
         subtitulo: '',
         diretor: 'Jon Favreau',

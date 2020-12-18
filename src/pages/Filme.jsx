@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import EstruturaDaPagina from '../components/EstruturaDaPagina';
 import Section from '../components/Section';
 import Listagem from '../filme/Listagem';
-import { filmes } from '../util/constantes';
+import FilmeAPI from '../services/filme';
 
 class Filme extends Component {
     constructor(props) {
@@ -14,10 +14,7 @@ class Filme extends Component {
     }
 
     componentDidMount() {
-        console.log("filmes ", this.state.filmes);
-        this.setState({filmes: filmes});
-        console.log("filmes depois do setState: ", this.state.filmes);
-        console.log("this.state.filmeEmEdicao na Montagem", this.state.filmeEmEdicao);
+        this.carregarFilmes();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -28,26 +25,29 @@ class Filme extends Component {
         console.log("this.state.filmeEmEdicao no Update", this.state.filmeEmEdicao);
     }
 
+    async carregarFilmes() {
+        const filmes = await FilmeAPI.buscarFilmes();
+        this.setState({filmes: filmes});
+    }
+
     editarFilme = (filme) => {
-        console.log("Filme em Edição no componente Filme: ", filme);
         this.setState({filmeEmEdicao: filme});
     }
 
-    excluirFilme(filmeAExcluir)  {
-        console.log("Filme Excluído  no componente Filme: ", filmeAExcluir);
-        this.setState({filmes: this.state.filmes.filter(filme => filme.titulo !== filmeAExcluir.titulo)})
+    excluirFilme(filme)  {
+        FilmeAPI.excluirFilme(filme.id).then(() => this.carregarFilmes());
     }
 
     render() {
         return (
             <React.Fragment>
                 <EstruturaDaPagina title="Filmes">
-                <Section titulo="Cadastro de Filmes">
-                    <>{this.state.filmeEmEdicao && <span>Filme em Edição: {this.state.filmeEmEdicao.titulo}</span>}</>
-                </Section>
-                <Section titulo="Listagem de Filmes">
-                    <Listagem filmes={this.state.filmes} editar={this.editarFilme} excluir={this.excluirFilme} />
-                </Section>
+                    <Section titulo="Cadastro de Filmes">
+                        <>{this.state.filmeEmEdicao && <span>Filme em Edição: {this.state.filmeEmEdicao.titulo}</span>}</>
+                    </Section>
+                    <Section titulo="Listagem de Filmes">
+                        <Listagem filmes={this.state.filmes} editar={this.editarFilme} excluir={this.excluirFilme} />
+                    </Section>
                 </EstruturaDaPagina>
                 {/* <EstruturaDaPagina title="Filmes" 
                     children={[

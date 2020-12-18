@@ -4,12 +4,10 @@ import './Listagem.css';
 class Listagem extends Component {
 
     handleEditar(filme) {
-        console.log("Filme em Edição: ", filme);
         this.props.editar(filme);
     }
 
     handleExcluir(filme) {
-        console.log("Filme Excluído: ", filme);
         this.props.excluir(filme);
     }
 
@@ -33,7 +31,7 @@ class Listagem extends Component {
                             </thead>
                             <tbody>
                                 {this.props.filmes.map(filme => (
-                                    <tr key={filme.titulo}>
+                                    <tr key={filme.id}>
                                         <td>{filme.titulo}</td>
                                         <td>{filme.subtitulo}</td>
                                         <td>{filme.diretor}</td>

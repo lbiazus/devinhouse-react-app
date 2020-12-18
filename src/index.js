@@ -4,7 +4,13 @@ import './index.css';
 import './assets/css/estruturadapagina.css';
 import './assets/css/tabela.css';
 import Filme from './pages/Filme'
+import { criarServidor } from './services/mirage-server';
 import reportWebVitals from './reportWebVitals';
+
+const ambiente = process.env.NODE_ENV;
+if (ambiente !== "production") {
+  criarServidor({ environment: ambiente });
+}
 
 ReactDOM.render(
   <React.StrictMode>
