@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EstruturaDaPagina from '../components/EstruturaDaPagina';
 import Section from '../components/Section';
+import Cadastro from '../filme/Cadastro';
 import Listagem from '../filme/Listagem';
 import FilmeAPI from '../services/filme';
 
@@ -38,12 +39,27 @@ class Filme extends Component {
         FilmeAPI.excluirFilme(filme.id).then(() => this.carregarFilmes());
     }
 
+    salvarFilme = filme => {
+        if (filme.id) {
+            FilmeAPI.atualizarFilme(filme).then(() => {
+                this.carregarFilmes();
+                this.setState({filmeEmEdicao: null});
+            });
+            return;
+        }
+
+        FilmeAPI.inserirFilme(filme).then(() => {
+            this.carregarFilmes();
+            this.setState({filmeEmEdicao: null})
+        });
+    }
+
     render() {
         return (
             <React.Fragment>
                 <EstruturaDaPagina title="Filmes">
                     <Section titulo="Cadastro de Filmes">
-                        <>{this.state.filmeEmEdicao && <span>Filme em Edição: {this.state.filmeEmEdicao.titulo}</span>}</>
+                        <Cadastro filme={this.state.filmeEmEdicao} salvar={this.salvarFilme}/>
                     </Section>
                     <Section titulo="Listagem de Filmes">
                         <Listagem filmes={this.state.filmes} editar={this.editarFilme} excluir={this.excluirFilme} />

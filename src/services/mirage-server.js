@@ -19,6 +19,20 @@ export function criarServidor({ environment = "test" } = {}) {
 
       this.get("/filmes", schema => schema.filmes.all().models);
 
+      //let newId = 3
+      this.post("/filmes", (schema, request) => {
+        const attrs = JSON.parse(request.requestBody);
+        //attrs.id = newId++
+        
+        return schema.filmes.create(attrs);
+      });
+
+      this.put("/filmes", (schema, request) => {
+        const attrs = JSON.parse(request.requestBody);
+        
+        return schema.filmes.create(attrs);
+      });
+
       this.delete("/filmes/:id", (schema, request) => {
         const id = request.params.id;
 

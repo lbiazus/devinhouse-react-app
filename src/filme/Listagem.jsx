@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit' ;
 import './Listagem.css';
 
 class Listagem extends Component {
@@ -19,7 +22,8 @@ class Listagem extends Component {
         return (
             <>
                 {this.props.filmes && this.props.filmes.length > 0 &&
-                    <div className="listagem">
+                    <>
+                    {/* <div className="listagem">
                         <table className="tabela-filmes">
                             <thead>
                                 <tr>
@@ -41,7 +45,43 @@ class Listagem extends Component {
                                 ))}
                             </tbody>
                         </table>
-                    </div>
+                    </div> */}
+                    <Grid container >
+                        <Grid item xs={11}>
+                            <TableContainer component={Paper}>
+                                <Table size="small">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Título</TableCell>
+                                            <TableCell>Subtitulo</TableCell>
+                                            <TableCell>Diretor</TableCell>
+                                            <TableCell align="center" colSpan={2}>Ações</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {this.props.filmes.map(filme => (
+                                            <TableRow key={filme.id}>
+                                                <TableCell width="25%">{filme.titulo}</TableCell>
+                                                <TableCell>{filme.subtitulo}</TableCell>
+                                                <TableCell width="20%">{filme.diretor}</TableCell>
+                                                <TableCell width="5%" align="center">
+                                                    <IconButton color="primary" onClick={() => this.handleEditar(filme)}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell width="5%" align="center">
+                                                    <IconButton color="primary" onClick={() => this.handleExcluir(filme)}>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Grid>
+                </>
                 }
             </>
         )
