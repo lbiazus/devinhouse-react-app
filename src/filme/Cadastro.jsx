@@ -3,6 +3,7 @@ import { Field, Form, Formik } from "formik";
 import * as yup from 'yup';
 import './Cadastro.css';
 import { Button, Grid, TextField } from "@material-ui/core";
+import Elenco from "./Elenco";
 
 const FILME_INICIAL = {
     titulo: '',
@@ -18,16 +19,27 @@ const FilmeSchema = yup.object().shape({
    diretor: yup.string().required('Informe o Diretor do Filme'),
 })
 
-class Cadastro extends Component {;
+class Cadastro extends Component {
+
+    state = { teveAlteracao: false }
 
     salvarFilme = (filme, actions) => {
+        actions.setSubmitting(true);
         this.props.salvar(filme);
         actions.resetForm();
+        actions.setSubmitting(false);
+        this.setState({teveAlteracao: false});
     }
 
-    handleChange = (name, value, setFieldValue, setFieldTouched) => {
+    handleChange = (name, value, setFieldValue) => {
+        this.setState({teveAlteracao: true});
         setFieldValue(name, value);
-        setFieldTouched(name, true, false)
+    }
+
+    adicionarAtor = (ator, name, values, setFieldValue) => {
+        const elenco = values[name];
+        elenco.push(ator);
+        setFieldValue(name, elenco);
     }
 
     render() {
@@ -38,7 +50,7 @@ class Cadastro extends Component {;
                 validationSchema={FilmeSchema}
                 initialValues={this.props.filme || FILME_INICIAL}
                 onSubmit={(values, actions) => this.salvarFilme(values, actions)}
-                render={({ values, touched, errors, handleReset, setFieldTouched, setFieldValue }) => (
+                render={({ values, touched, errors, isSubmitting, handleReset, setFieldTouched, setFieldValue }) => (
                     <Form>
                         {/* <div className="formulario">
                             <div className="campo-formulario">
@@ -84,7 +96,7 @@ class Cadastro extends Component {;
                                     value={values.titulo}
                                     variant="outlined"
                                     onFocus={() => setFieldTouched('titulo')}
-                                    onChange={e => this.handleChange('titulo', e.target.value, setFieldValue, setFieldTouched)}
+                                    onChange={e => this.handleChange('titulo', e.target.value, setFieldValue)}
                                     error={touched.titulo && errors.titulo}
                                     helperText={touched.titulo && errors.titulo}
                                 />
@@ -98,7 +110,7 @@ class Cadastro extends Component {;
                                     name="subtitulo"
                                     value={values.subtitulo}
                                     onFocus={() => setFieldTouched('subtitulo')}
-                                    onChange={e => this.handleChange('subtitulo', e.target.value, setFieldValue, setFieldTouched)}
+                                    onChange={e => this.handleChange('subtitulo', e.target.value, setFieldValue)}
                                     variant="outlined"
                                     error={touched.subtitulo && errors.subtitulo}
                                 />
@@ -110,13 +122,25 @@ class Cadastro extends Component {;
                                     size="small"
                                     name="diretor"
                                     value={values.diretor}
-                                    onChange={e => this.handleChange('diretor', e.target.value, setFieldValue, setFieldTouched)}
+                                    onChange={e => this.handleChange('diretor', e.target.value, setFieldValue)}
                                     onFocus={() => setFieldTouched('diretor')}
                                     label="Diretor"
                                     variant="outlined"
                                     error={touched.diretor && errors.diretor}
                                     helperText={touched.diretor && errors.diretor}
-                                    />
+                                />
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Field
+                                    component={Elenco}
+                                    fullWidth
+                                    size="small"
+                                    name="elenco"
+                                    elenco={values.elenco}
+                                    adicionarAtor={ator => this.adicionarAtor(ator, 'elenco', values, setFieldValue)}
+                                    onChange={e => this.handleChange('elenco', e.target.value, setFieldValue, setFieldTouched)}
+                                    onFocus={() => setFieldTouched('diretor')}
+                                />
                             </Grid>
                             <Grid item xs={11} >
                                 <Grid container spacing={2} justify="flex-end">
@@ -124,7 +148,7 @@ class Cadastro extends Component {;
                                         <Button variant="contained" onClick={() => {handleReset(FILME_INICIAL)}}>Novo</Button>
                                     </Grid>
                                     <Grid item >
-                                        <Button variant="contained" color="primary" type="submit">Salvar</Button>
+                                        <Button variant="contained" color="primary" type="submit" disabled={isSubmitting || !this.state.teveAlteracao}>Salvar</Button>
                                     </Grid>
                                 </Grid>
                             </Grid>

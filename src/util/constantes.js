@@ -69,3 +69,7 @@ export const filmes = [
         ]
     }
 ]
+
+export const papeis = [
+    "Protagonista", "Coadjuvante", "Antagonista", "Vilão"
+]
