@@ -54,12 +54,16 @@ class Filme extends Component {
         });
     }
 
+    limparFilmeEmEdicao = () => {
+        this.setState({filmeEmEdicao: null})
+    }
+
     render() {
         return (
             <React.Fragment>
                 <EstruturaDaPagina title="Filmes">
                     <Section titulo="Cadastro de Filmes">
-                        <Cadastro filme={this.state.filmeEmEdicao} salvar={this.salvarFilme}/>
+                        <Cadastro filme={this.state.filmeEmEdicao} salvar={this.salvarFilme} limpar={this.limparFilmeEmEdicao}/>
                     </Section>
                     <Section titulo="Listagem de Filmes">
                         <Listagem filmes={this.state.filmes} editar={this.editarFilme} excluir={this.excluirFilme} />

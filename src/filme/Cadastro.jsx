@@ -36,6 +36,11 @@ class Cadastro extends Component {
         setFieldValue(name, value);
     }
 
+    handleNovoFilme = (handleReset) => {
+        this.props.limpar();
+        handleReset(FILME_INICIAL);
+    }
+
     adicionarAtor = (ator, name, values, setFieldValue) => {
         const elenco = values[name];
         elenco.push(ator);
@@ -145,7 +150,7 @@ class Cadastro extends Component {
                             <Grid item xs={11} >
                                 <Grid container spacing={2} justify="flex-end">
                                     <Grid item >
-                                        <Button variant="contained" onClick={() => {handleReset(FILME_INICIAL)}}>Novo</Button>
+                                        <Button variant="contained" onClick={() => {this.handleNovoFilme(handleReset)}}>Novo</Button>
                                     </Grid>
                                     <Grid item >
                                         <Button variant="contained" color="primary" type="submit" disabled={isSubmitting || !this.state.teveAlteracao}>Salvar</Button>
