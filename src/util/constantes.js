@@ -1,3 +1,10 @@
+export const FILME_INICIAL = {
+    titulo: '',
+    subtitulo: '',
+    diretor: '',
+    elenco: []
+}
+
 export const filmes = [
     {
         id: 1,

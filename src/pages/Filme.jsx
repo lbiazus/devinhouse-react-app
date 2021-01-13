@@ -1,82 +1,74 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import EstruturaDaPagina from '../components/EstruturaDaPagina';
 import Section from '../components/Section';
 import Cadastro from '../filme/Cadastro';
 import Listagem from '../filme/Listagem';
 import FilmeAPI from '../services/filme';
 
-class Filme extends Component {
-    constructor(props) {
-        super(props);
+const Filme = props => {
 
-        this.state = {filmes: []};
-        //this.editarFilme = this.editarFilme.bind(this);
-        this.excluirFilme = this.excluirFilme.bind(this);
-    }
+    const [filmes, setFilmes] = useState([]);
+    const [filmeEmEdicao, setFilmeEmEdicao] = useState();
 
-    componentDidMount() {
-        this.carregarFilmes();
-    }
+    useEffect(() => {
+        carregarFilmes();
+    }, []);
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.filmeEmEdicao === prevState.filmeEmEdicao) {
-            return;
-        }
+    useEffect(() => {
+        console.log("filmeEmEdicao no Update", filmeEmEdicao);
 
-        console.log("this.state.filmeEmEdicao no Update", this.state.filmeEmEdicao);
-    }
+        return () => {console.log("Encerrou o Componente")};
+    }, [filmeEmEdicao]);
 
-    async carregarFilmes() {
+    const carregarFilmes = async () => {
         const filmes = await FilmeAPI.buscarFilmes();
-        this.setState({filmes: filmes});
+        setFilmes(filmes);
     }
 
-    editarFilme = (filme) => {
-        this.setState({filmeEmEdicao: filme});
+    const editarFilme = (filme) => {
+        setFilmeEmEdicao(filme);
     }
 
-    excluirFilme(filme)  {
-        FilmeAPI.excluirFilme(filme.id).then(() => this.carregarFilmes());
+    const excluirFilme = filme => {
+        FilmeAPI.excluirFilme(filme.id).then(() => carregarFilmes());
     }
 
-    salvarFilme = filme => {
+    const salvarFilme = filme => {
         if (filme.id) {
             FilmeAPI.atualizarFilme(filme).then(() => {
-                this.carregarFilmes();
-                this.setState({filmeEmEdicao: null});
+                carregarFilmes();
+                setFilmeEmEdicao(null);
             });
             return;
         }
 
         FilmeAPI.inserirFilme(filme).then(() => {
-            this.carregarFilmes();
-            this.setState({filmeEmEdicao: null})
+            carregarFilmes();
+            setFilmeEmEdicao(null);
         });
     }
 
-    limparFilmeEmEdicao = () => {
-        this.setState({filmeEmEdicao: null})
+    const limparFilmeEmEdicao = () => {
+        setFilmeEmEdicao(null);
     }
 
-    render() {
-        return (
-            <React.Fragment>
-                <EstruturaDaPagina title="Filmes">
-                    <Section titulo="Cadastro de Filmes">
-                        <Cadastro filme={this.state.filmeEmEdicao} salvar={this.salvarFilme} limpar={this.limparFilmeEmEdicao}/>
-                    </Section>
-                    <Section titulo="Listagem de Filmes">
-                        <Listagem filmes={this.state.filmes} editar={this.editarFilme} excluir={this.excluirFilme} />
-                    </Section>
-                </EstruturaDaPagina>
-                {/* <EstruturaDaPagina title="Filmes" 
-                    children={[
-                        <Section titulo="Cadastro de Filmes" />,
-                        <Section titulo="Listagem de Filmes">]}
-                /> */}
-            </React.Fragment>
-        )
-    }
+    return (
+        <React.Fragment>
+            <EstruturaDaPagina title="Filmes">
+                <Section titulo="Cadastro de Filmes">
+                    <Cadastro filme={filmeEmEdicao} salvar={salvarFilme} limpar={limparFilmeEmEdicao}/>
+                </Section>
+                <Section titulo="Listagem de Filmes">
+                    <Listagem filmes={filmes} editar={editarFilme} excluir={excluirFilme} />
+                </Section>
+            </EstruturaDaPagina>
+            {/* <EstruturaDaPagina title="Filmes" 
+                children={[
+                    <Section titulo="Cadastro de Filmes" />,
+                    <Section titulo="Listagem de Filmes">]}
+            /> */}
+        </React.Fragment>
+    )
 }
 
 export default Filme;

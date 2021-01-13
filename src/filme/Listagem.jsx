@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit' ;
 import './Listagem.css';
 
 class Listagem extends Component {
-
-    handleEditar(filme) {
-        this.props.editar(filme);
-    }
 
     handleExcluir(filme) {
         this.props.excluir(filme);
@@ -65,7 +62,7 @@ class Listagem extends Component {
                                                 <TableCell>{filme.subtitulo}</TableCell>
                                                 <TableCell width="20%">{filme.diretor}</TableCell>
                                                 <TableCell width="5%" align="center">
-                                                    <IconButton color="primary" onClick={() => this.handleEditar(filme)}>
+                                                    <IconButton color="primary" component={Link} to={`/filmes/cadastro/${filme.id}`}>
                                                         <EditIcon />
                                                     </IconButton>
                                                 </TableCell>
