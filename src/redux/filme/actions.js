@@ -1,7 +1,7 @@
 import * as types from './types';
 
-import { FILME_INICIAL } from '../../util/constantes';
-import FilmeAPI from '../../services/filme';
+/* import { FILME_INICIAL } from '../../util/constantes';
+import FilmeAPI from '../../services/filme'; */
 
 /*Redux - Sozinho*/
 export const armazenarFilmes = filmes => (
@@ -13,24 +13,24 @@ export const armazenarFilmes = filmes => (
 /* */
 
 /* Redux-Thunk */
-export const buscarFilmes = (service = FilmeAPI) => async dispatch => {
+/* export const buscarFilmes = (service = FilmeAPI) => async dispatch => {
     const filmes = await service.buscarFilmes();
     //console.log("filmes ", filmes);
     dispatch({type: types.BUSCAR_FILMES, payload: filmes});
-}
+} */
 
-export const buscarFilme = (id, service = FilmeAPI) => async dispatch => {
+/* export const buscarFilme = (id, service = FilmeAPI) => async dispatch => {
     const filme = await service.buscarFilme(id);
     //console.log("filme ", filme);
     dispatch({type: types.SETAR_FILME_ATUAL, payload: filme});
-}
+} */
 
-export const excluirFilme = (filme, service = FilmeAPI) => async dispatch => {
+/* export const excluirFilme = (filme, service = FilmeAPI) => async dispatch => {
     await service.excluirFilme(filme.id);
     dispatch(buscarFilmes());
-}
+} */
 
-export const inserirFilme = (filme, service = FilmeAPI) => async dispatch => {
+/* export const inserirFilme = (filme, service = FilmeAPI) => async dispatch => {
     await service.inserirFilme(filme);
     dispatch(buscarFilmes());
 }
@@ -47,9 +47,31 @@ export const limparFilmeAtual = () => {
         type: types.SETAR_FILME_ATUAL,
         payload: FILME_INICIAL
     }
-)}
+)} */
 /* */
 
 /* Redux Saga */
+export const buscarFilmes = () => (
+    { type: types.BUSCAR_FILMES }
+)
 
+export const buscarFilme = id => (
+    {type: types.BUSCAR_FILME, payload: id }
+)
+
+export const excluirFilme = (filme) => {
+    return {type: types.EXCLUIR_FILME, payload: filme }
+}
+
+export const inserirFilme = filme => {
+    return { type: types.INSERIR_FILME, payload: filme }
+}
+
+export const atualizarFilme = filme => (
+    { type: types.ATUALIZAR_FILME, payload: filme }
+)
+
+export const limparFilmeAtual = () => (
+    { type: types.LIMPAR_FILME_ATUAL }
+)
 /* */

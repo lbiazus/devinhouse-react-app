@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from "@material-ui/core";
 import EstruturaDaPagina from "../../components/EstruturaDaPagina";
@@ -11,11 +10,16 @@ import { getFilmes } from '../../redux/filme/selectors';
 
 const PageListaFilme = props => {
 
-    const { filmes, buscarFilmes, excluirFilme } = props;
+    const filmes = useSelector(getFilmes);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        buscarFilmes();
-    }, [buscarFilmes]);
+        dispatch(buscarFilmes());
+    }, [dispatch]);
+
+    const handleExcluirFilme = filme => {
+        dispatch(excluirFilme(filme));
+    }
 
     return (
         <EstruturaDaPagina title="Filmes">
@@ -29,7 +33,7 @@ const PageListaFilme = props => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12} >
-                        <Listagem filmes={filmes} excluir={excluirFilme} />
+                        <Listagem filmes={filmes} excluir={handleExcluirFilme} />
                     </Grid>
                 </Grid>
             </Section>
@@ -37,17 +41,4 @@ const PageListaFilme = props => {
     )
 }
 
-const mapStateToProps = state => ({
-    filmes: getFilmes(state)
-});
-
-const mapDispatchToProps = dispatch => 
-    bindActionCreators(
-        {
-            buscarFilmes,
-            excluirFilme
-        },
-        dispatch
-    );
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageListaFilme);
+export default PageListaFilme;

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { bindActionCreators } from 'redux'; 
 import { useParams } from 'react-router-dom';
 import EstruturaDaPagina from "../../components/EstruturaDaPagina";
 import Section from "../../components/Section";
@@ -9,8 +8,6 @@ import { buscarFilme, inserirFilme, atualizarFilme, limparFilmeAtual } from '../
 import { getFilmeAtual } from '../../redux/filme/selectors';
 
 const PageCadastroFilme = props => {
-
-    //const { filmeEmEdicao, buscarFilme, inserirFilme, atualizarFilme, limparFilmeAtual } = props;
     
     const filmeEmEdicao = useSelector(getFilmeAtual);
     const dispatch = useDispatch()
@@ -24,7 +21,7 @@ const PageCadastroFilme = props => {
 
         dispatch(buscarFilme(id));
 
-        return () => dispatch(limparFilmeAtual());
+        //return () => dispatch(limparFilmeAtual());
     }, [dispatch, id]);
 
     useEffect(() => {
@@ -41,7 +38,7 @@ const PageCadastroFilme = props => {
     }
 
     const limparFilmeEmEdicao = () => {
-        dispatch(limparFilmeAtual())
+        //dispatch(limparFilmeAtual())
     }
 
     return (
@@ -53,17 +50,4 @@ const PageCadastroFilme = props => {
     )
 }
 
-/* const mapStateToProps = state => ({
-    filmeEmEdicao: getFilmeAtual(state)
-}) */
-
-/* const mapDispatchToProps = dispatch => 
-    bindActionCreators({
-        buscarFilme,
-        inserirFilme,
-        atualizarFilme,
-        limparFilmeAtual
-    }, dispatch) */
-
-//export default connect(null, mapDispatchToProps)(PageCadastroFilme);
 export default PageCadastroFilme;
