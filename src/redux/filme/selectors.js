@@ -1,0 +1,1 @@
+export const getFilmes = store => store.filme.filmes;
