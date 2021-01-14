@@ -1,11 +1,11 @@
 import Filme from '../pages/Filme';
-import Cadastro from '../filme/Cadastro';
+import PageCadastroFilme from '../pages/filme/PageCadastroFilme';
 import PageListaFilme from '../pages/filme/PageListaFilme';
 
 const routes = [
     {
         path: '/',
-        component: Filme,
+        component: PageListaFilme,
         exact: true
     },
     {
@@ -15,12 +15,12 @@ const routes = [
     },
     {
         path: "/filmes/cadastro/:id?",
-        component: Cadastro
+        component: PageCadastroFilme
     },
     {
         path: "/filmes/listagem",
         component: PageListaFilme,
-    },
+    }
 ]
 
 export default routes;

@@ -12,6 +12,14 @@ class FilmeService {
 				throw error;
 			});
 	}
+
+	buscarFilme(id) {
+		return axios.get(`${BASE_URL}/${id}`)
+			.then(response => response.data)
+            .catch(error => {
+				throw error;
+			});
+	}
 	
 	inserirFilme(filme) {
 		return axios.post(BASE_URL, filme)

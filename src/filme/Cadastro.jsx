@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import './Cadastro.css';
 import { Button, Grid, TextField } from "@material-ui/core";
 import Elenco from "./Elenco";
+import { Link, useHistory } from "react-router-dom";
 import { FILME_INICIAL } from '../util/constantes';
 
 const FilmeSchema = yup.object().shape({
@@ -16,7 +17,8 @@ const FilmeSchema = yup.object().shape({
 const Cadastro = props => {
     const { filme, salvar, limpar } = props;
 
-    const [teveAlteracao, setTeveAlteracao] = useState(false)
+    const [teveAlteracao, setTeveAlteracao] = useState(false);
+    const history = useHistory();
 
     const salvarFilme = (filme, actions) => {
         actions.setSubmitting(true);
@@ -24,6 +26,7 @@ const Cadastro = props => {
         actions.resetForm();
         actions.setSubmitting(false);
         setTeveAlteracao(false);
+        history.push("/filmes/listagem");
     }
 
     const handleChange = (name, value, setFieldValue) => {
@@ -34,6 +37,10 @@ const Cadastro = props => {
     const handleNovoFilme = (handleReset) => {
         limpar();
         handleReset(FILME_INICIAL);
+    }
+
+    const voltar = () => {
+        history.goBack();
     }
 
     const adicionarAtor = (ator, name, values, setFieldValue) => {
@@ -144,6 +151,12 @@ const Cadastro = props => {
                         </Grid>
                         <Grid item xs={11} >
                             <Grid container spacing={2} justify="flex-end">
+                                <Grid item >
+                                    <Button variant="contained" component={Link} to="/filmes/listagem">Voltar</Button>
+                                </Grid>
+                                <Grid item >
+                                    <Button variant="contained" onClick={voltar}>Voltar com History</Button>
+                                </Grid>
                                 <Grid item >
                                     <Button variant="contained" onClick={() => {handleNovoFilme(handleReset)}}>Novo</Button>
                                 </Grid>
