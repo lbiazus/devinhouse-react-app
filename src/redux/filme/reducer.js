@@ -8,6 +8,12 @@ const FilmeReducer = (state = INITIAL_STATE, action) => {
         case types.ARMAZENAR_FILMES:
             return { ...state, filmes: action.payload };
         /* */
+        /* Redux-Thunk */
+        case types.BUSCAR_FILMES:
+            return { ...state, filmes: action.payload }
+        case types.SETAR_FILME_ATUAL:
+            return { ...state, filmeAtual: action.payload }
+        /* */
         default:
             return state;
     }

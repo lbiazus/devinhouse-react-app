@@ -1,31 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+//import { bindActionCreators } from 'redux'; 
 import { useParams } from 'react-router-dom';
 import EstruturaDaPagina from "../../components/EstruturaDaPagina";
 import Section from "../../components/Section";
 import Cadastro from "../../filme/Cadastro";
-import FilmeAPI from '../../services/filme';
-import { FILME_INICIAL } from '../../util/constantes';
+import { buscarFilme, inserirFilme, atualizarFilme, limparFilmeAtual } from '../../redux/filme/actions';
+import { getFilmeAtual } from '../../redux/filme/selectors';
 
 const PageCadastroFilme = props => {
 
-    const { id } = useParams();
-    console.log("id ", id);
+    //const { filmeEmEdicao, buscarFilme, inserirFilme, atualizarFilme, limparFilmeAtual } = props;
+    
+    const filmeEmEdicao = useSelector(getFilmeAtual);
+    const dispatch = useDispatch()
 
-    const [filmeEmEdicao, setFilmeEmEdicao] = useState({});
+    const { id } = useParams();
 
     useEffect(() => {
         if (!id) {
-            setFilmeEmEdicao(FILME_INICIAL);
             return;
         }
 
-        carregarFilme(id);
-    }, [id]);
+        dispatch(buscarFilme(id));
 
-    const carregarFilme = async id => {
-        const filme = await FilmeAPI.buscarFilme(id);
-        setFilmeEmEdicao(filme);
-    }
+        return () => dispatch(limparFilmeAtual());
+    }, [dispatch, id]);
 
     useEffect(() => {
         console.log("filmeEmEdicao no Update", filmeEmEdicao);
@@ -33,19 +33,15 @@ const PageCadastroFilme = props => {
 
     const salvarFilme = filme => {
         if (filme.id) {
-            FilmeAPI.atualizarFilme(filme).then(() => {
-                setFilmeEmEdicao(null);
-            });
+            dispatch(atualizarFilme(filme));
             return;
         }
 
-        FilmeAPI.inserirFilme(filme).then(() => {
-            setFilmeEmEdicao(null);
-        });
+        dispatch(inserirFilme(filme));
     }
 
     const limparFilmeEmEdicao = () => {
-        setFilmeEmEdicao(null);
+        dispatch(limparFilmeAtual())
     }
 
     return (
@@ -57,4 +53,17 @@ const PageCadastroFilme = props => {
     )
 }
 
+/* const mapStateToProps = state => ({
+    filmeEmEdicao: getFilmeAtual(state)
+}) */
+
+/* const mapDispatchToProps = dispatch => 
+    bindActionCreators({
+        buscarFilme,
+        inserirFilme,
+        atualizarFilme,
+        limparFilmeAtual
+    }, dispatch) */
+
+//export default connect(null, mapDispatchToProps)(PageCadastroFilme);
 export default PageCadastroFilme;

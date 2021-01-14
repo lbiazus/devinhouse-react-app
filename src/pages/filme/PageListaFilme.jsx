@@ -1,31 +1,21 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
+import { Link } from 'react-router-dom';
 import { Button, Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import EstruturaDaPagina from "../../components/EstruturaDaPagina";
 import Section from "../../components/Section";
 import Listagem from "../../filme/Listagem";
-import FilmeAPI from '../../services/filme';
-import { armazenarFilmes } from '../../redux/filme/actions';
-import { getFilmes } from "../../redux/filme/selectors";
+import { buscarFilmes, excluirFilme } from '../../redux/filme/actions';
+import { getFilmes } from '../../redux/filme/selectors';
 
 const PageListaFilme = props => {
-    
-    const { filmes, armazenarFilmes } = props; 
+
+    const { filmes, buscarFilmes, excluirFilme } = props;
 
     useEffect(() => {
-        carregarFilmes();
-    }, []);
-
-    const carregarFilmes = async () => {
-        const filmes = await FilmeAPI.buscarFilmes();
-        armazenarFilmes(filmes)
-    }
-
-    const excluirFilme = filme =>  {
-        FilmeAPI.excluirFilme(filme.id).then(() => carregarFilmes());
-    }
+        buscarFilmes();
+    }, [buscarFilmes]);
 
     return (
         <EstruturaDaPagina title="Filmes">
@@ -49,14 +39,15 @@ const PageListaFilme = props => {
 
 const mapStateToProps = state => ({
     filmes: getFilmes(state)
-})
+});
 
 const mapDispatchToProps = dispatch => 
     bindActionCreators(
         {
-            armazenarFilmes
+            buscarFilmes,
+            excluirFilme
         },
         dispatch
-    )
+    );
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageListaFilme);
