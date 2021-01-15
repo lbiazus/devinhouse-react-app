@@ -16,13 +16,13 @@ export const armazenarFilmes = filmes => (
 export const buscarFilmes = (service = FilmeAPI) => async dispatch => {
     const filmes = await service.buscarFilmes();
     //console.log("filmes ", filmes);
-    dispatch({type: types.BUSCAR_FILMES, payload: filmes});
+    dispatch({type: types.ARMAZENAR_FILMES, payload: filmes});
 }
 
 export const buscarFilme = (id, service = FilmeAPI) => async dispatch => {
     const filme = await service.buscarFilme(id);
     //console.log("filme ", filme);
-    dispatch({type: types.SETAR_FILME_ATUAL, payload: filme});
+    dispatch({type: types.SETAR_FILME_ATUAL, filmeAtual: filme});
 }
 
 export const excluirFilme = (filme, service = FilmeAPI) => async dispatch => {
@@ -45,7 +45,7 @@ export const limparFilmeAtual = () => {
     return (
     {
         type: types.SETAR_FILME_ATUAL,
-        payload: FILME_INICIAL
+        filmeAtual: FILME_INICIAL
     }
 )}
 /* */
