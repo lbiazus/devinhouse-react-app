@@ -5,8 +5,9 @@ import * as constants from './constants';
 const BASE_URL = `${constants.DEVINHOUSE_API}/filmes`;
 
 class FilmeService {
-    buscarFilmes() {
-		return axios.get(BASE_URL)
+	buscarFilmes(filtro) {
+		const url = filtro ? `${BASE_URL}?filtro=${filtro}` : BASE_URL;
+		return axios.get(url)
 			.then(response => response.data)
             .catch(error => {
 				throw error;

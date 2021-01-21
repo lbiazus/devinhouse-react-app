@@ -51,8 +51,11 @@ export const limparFilmeAtual = () => {
 /* */
 
 /* Redux Saga */
-export const buscarFilmes = () => (
-    { type: types.BUSCAR_FILMES }
+export const buscarFilmes = filtro => (
+    {
+        type: types.BUSCAR_FILMES,
+        payload: filtro
+    }
 )
 
 export const buscarFilme = id => (

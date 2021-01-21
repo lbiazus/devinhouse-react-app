@@ -4,9 +4,9 @@ import * as types from './types';
 import FilmeAPI from '../../services/filme';
 //import { FILME_INICIAL } from '../../util/constantes';
 
-function* buscarFilmes() {
-    const filmes = yield call(FilmeAPI.buscarFilmes);
-    yield put ({type: types.ARMAZENAR_FILMES, payload: filmes});
+function* buscarFilmes(action) {
+    const filmes = yield call(FilmeAPI.buscarFilmes, action.payload);
+    yield put({type: types.ARMAZENAR_FILMES, payload: filmes});
 }
 
 function* buscarFilme(action) {

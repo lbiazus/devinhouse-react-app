@@ -17,7 +17,15 @@ export function criarServidor({ environment = "test" } = {}) {
     routes() {
       this.namespace = constants.DEVINHOUSE_API;
 
-      this.get("/filmes", schema => schema.filmes.all().models);
+      this.get("/filmes", (schema, request) => {
+        const filtro = request.queryParams.filtro;
+
+        if (filtro) { 
+          return schema.filmes.where(filme => filme.titulo.includes(filtro) || filme.subtitulo.includes(filtro)).models
+        }
+
+        return schema.filmes.all().models;
+      });
 
       this.get("/filmes/:id", (schema, request) => {
         const id = request.params.id;
