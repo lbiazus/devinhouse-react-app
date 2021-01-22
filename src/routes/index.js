@@ -1,6 +1,7 @@
 import Filme from '../pages/Filme';
 import PageCadastroFilme from '../pages/filme/PageCadastroFilme';
 import PageListaFilme from '../pages/filme/PageListaFilme';
+import PageCadastroGenero from '../pages/genero/PageCadastroGenero';
 
 const routes = [
     {
@@ -20,6 +21,10 @@ const routes = [
     {
         path: "/filmes/listagem",
         component: PageListaFilme,
+    },
+    {
+        path: "/generos/cadastro",
+        component: PageCadastroGenero,
     }
 ]
 

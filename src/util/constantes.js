@@ -5,6 +5,10 @@ export const FILME_INICIAL = {
     elenco: []
 }
 
+export const GENERO_INICIAL = {
+    descricao: ''
+}
+
 export const filmes = [
     {
         id: 1,
